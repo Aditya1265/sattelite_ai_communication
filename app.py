@@ -57,12 +57,12 @@ if page == "🏠 Home":
     # ✅ Restored Logos & Images
     col1, col2 = st.columns([1, 1])
     with col1:
-        st.image("C:/Users/BIT/Downloads/Birla_Institute_of_Technology_Mesra.png", width=200)
+       st.image("assets/Birla_Institute_of_Technology_Mesra.png", width=200)
         st.markdown("### BIT Mesra")
         st.markdown("#### AI-Powered Satellite Communication System")
     
     with col2:
-        st.image("C:/Users/BIT/Downloads/917923.png", use_container_width=True)
+        st.image("assets/917923.png", use_container_width=True)
 
     st.markdown("""
     ### 📡 Welcome to the **Satellite AI Model**
