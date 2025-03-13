@@ -58,8 +58,8 @@ if page == "🏠 Home":
     col1, col2 = st.columns([1, 1])
     with col1:
        st.image("assets/Birla_Institute_of_Technology_Mesra.png", width=200)
-        st.markdown("### BIT Mesra")
-        st.markdown("#### AI-Powered Satellite Communication System")
+       st.markdown("### BIT Mesra")
+       st.markdown("#### AI-Powered Satellite Communication System")
     
     with col2:
         st.image("assets/917923.png", use_container_width=True)
