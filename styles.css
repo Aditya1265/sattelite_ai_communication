@@ -1,0 +1,29 @@
+body {
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    color: white;
+    font-family: 'Arial', sans-serif;
+}
+
+.stApp {
+    background: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+h1, h2, h3 {
+    text-align: center;
+    font-weight: bold;
+}
+
+.stButton>button {
+    background-color: #ff4b4b;
+    color: white;
+    font-size: 18px;
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+
+.sidebar .sidebar-content {
+    background: #121212;
+    color: white;
+}
