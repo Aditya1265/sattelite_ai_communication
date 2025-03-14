@@ -44,8 +44,7 @@ pd.DataFrame(y_test).to_csv("y_test.csv", index=False)
 
 # ✅ Save Preprocessing Pipeline to `.pkl`
 with open("preprocessor.pkl", "wb") as f:
-    pickle.dump(preprocessor, f)
-
+    pickle.dump(preprocessor, f, protocol=4) 
 # ✅ Save Scaler Parameters
 np.save("y_scaler_min.npy", y_scaler.data_min_)
 np.save("y_scaler_max.npy", y_scaler.data_max_)
