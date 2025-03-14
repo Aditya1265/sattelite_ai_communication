@@ -91,10 +91,29 @@ elif page == "📊 Prediction":
     location_type = st.selectbox("Location Type", ["Oceanic", "Equatorial", "Polar", "Mountainous", "Mid-Latitude"])
 
     # 🔹 Convert Inputs to DataFrame
-    input_df = pd.DataFrame([[frequency, bandwidth, noise_level, latency, packet_loss, 
-                              weather_condition, modulation_scheme, location_type]],
-                            columns=["Frequency_GHz", "Bandwidth_MHz", "Noise_Level_dB", "Latency_ms", "Packet_Loss_%", 
-                                     "Weather_Condition", "Modulation_Scheme", "Location_Type"])
+  # 🔹 Create DataFrame for Input
+input_df = pd.DataFrame([[frequency, bandwidth, noise_level, latency, packet_loss, 
+                          weather_condition, modulation_scheme, location_type]],
+                        columns=["Frequency_GHz", "Bandwidth_MHz", "Noise_Level_dB", "Latency_ms", 
+                                 "Packet_Loss_%", "Weather_Condition", "Modulation_Scheme", "Location_Type"])
+
+# 🔹 Apply Preprocessing (This ensures correct feature transformation)
+try:
+    input_processed = preprocessor.transform(input_df)
+    input_processed = np.array(input_processed).reshape(1, -1)  # Ensure correct shape
+except Exception as e:
+    st.error(f"Error processing input: {e}")
+    st.stop()
+
+# 🚀 Make Prediction
+if st.button("🚀 Predict Now"):
+    try:
+        prediction = model.predict(input_processed)
+        st.session_state.prediction = y_scaler.inverse_transform(prediction)[0][0]
+        st.success(f"📡 **Predicted Signal Strength:** {st.session_state.prediction:.2f} dBm")
+    except Exception as e:
+        st.error(f"🚨 Prediction Error: {e}")
+
 
     # 🔹 Apply Preprocessing
     input_processed = preprocessor.transform(input_df)
