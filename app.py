@@ -126,19 +126,19 @@ if st.button("🚀 Predict Now"):
 
     # 🔹 Predict and Store Data
     if st.button("🚀 Predict Now"):
-    if model is None:
-        st.error("🚨 Model is not loaded properly.")
-    else:
-        # ✅ Store user inputs in session state
-        st.session_state.frequency = frequency
-        st.session_state.bandwidth = bandwidth
-        st.session_state.noise_level = noise_level
-        st.session_state.latency = latency
-        st.session_state.packet_loss = packet_loss
-        st.session_state.weather_condition = weather_condition
-        st.session_state.modulation_scheme = modulation_scheme
-        st.session_state.location_type = location_type
-
+        if model is None:
+          st.error("🚨 Model is not loaded properly.")
+       else:
+          # ✅ Store user inputs in session state
+          st.session_state.frequency = frequency
+          st.session_state.bandwidth = bandwidth
+          st.session_state.noise_level = noise_level
+          st.session_state.latency = latency
+          st.session_state.packet_loss = packet_loss
+          st.session_state.weather_condition = weather_condition
+          st.session_state.modulation_scheme = modulation_scheme
+          st.session_state.location_type = location_type
+ 
         # 🔹 Apply Preprocessing
         input_processed = preprocessor.transform(input_df)
         st.write(f"✅ Processed Input Shape: {input_processed.shape}")  # Debugging line
