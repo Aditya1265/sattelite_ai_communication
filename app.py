@@ -125,16 +125,33 @@ if st.button("🚀 Predict Now"):
     input_processed = preprocessor.transform(input_df)
 
     # 🔹 Predict and Store Data
-    if st.button("🚀 Predict Now") and model is not None:
-    # ✅ Store user inputs in session state
-       st.session_state.frequency = frequency
-       st.session_state.bandwidth = bandwidth
-       st.session_state.noise_level = noise_level
-       st.session_state.latency = latency
-       st.session_state.packet_loss = packet_loss
-       st.session_state.weather_condition = weather_condition
-       st.session_state.modulation_scheme = modulation_scheme
-       st.session_state.location_type = location_type
+    if st.button("🚀 Predict Now"):
+    if model is None:
+        st.error("🚨 Model is not loaded properly.")
+    else:
+        # ✅ Store user inputs in session state
+        st.session_state.frequency = frequency
+        st.session_state.bandwidth = bandwidth
+        st.session_state.noise_level = noise_level
+        st.session_state.latency = latency
+        st.session_state.packet_loss = packet_loss
+        st.session_state.weather_condition = weather_condition
+        st.session_state.modulation_scheme = modulation_scheme
+        st.session_state.location_type = location_type
+
+        # 🔹 Apply Preprocessing
+        input_processed = preprocessor.transform(input_df)
+        st.write(f"✅ Processed Input Shape: {input_processed.shape}")  # Debugging line
+
+        # ✅ Check if input matches model's expected shape
+        if model is not None and input_processed.shape[1] == model.input_shape[1]:
+            prediction = model.predict(input_processed)
+            predicted_signal_strength = y_scaler.inverse_transform(prediction)[0][0]
+            st.session_state.prediction = predicted_signal_strength
+            st.success(f"📡 **Predicted Signal Strength:** {predicted_signal_strength:.2f} dBm")
+        else:
+            st.error(f"🚨 Input shape mismatch! Expected {model.input_shape[1]} features, but got {input_processed.shape[1]}")
+
 
     # ✅ Store prediction in session state
        st.session_state.prediction = y_scaler.inverse_transform(model.predict(input_processed))[0][0]
