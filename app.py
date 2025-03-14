@@ -97,9 +97,15 @@ input_df = pd.DataFrame([[frequency, bandwidth, noise_level, latency, packet_los
                         columns=["Frequency_GHz", "Bandwidth_MHz", "Noise_Level_dB", "Latency_ms", 
                                  "Packet_Loss_%", "Weather_Condition", "Modulation_Scheme", "Location_Type"])
 
-# 🔹 Apply Preprocessing (This ensures correct feature transformation)
+
 try:
     input_processed = preprocessor.transform(input_df)
+    input_processed = np.array(input_processed).reshape(1, -1)  # Ensure correct shape
+    st.write(f"Processed Input Shape: {input_processed.shape}")  # Debugging line
+except Exception as e:
+    st.error(f"🚨 Error processing input: {e}")
+    st.stop()
+
     input_processed = np.array(input_processed).reshape(1, -1)  # Ensure correct shape
 except Exception as e:
     st.error(f"Error processing input: {e}")
