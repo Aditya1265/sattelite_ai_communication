@@ -128,7 +128,7 @@ if st.button("🚀 Predict Now"):
     if st.button("🚀 Predict Now"):
         if model is None:
           st.error("🚨 Model is not loaded properly.")
-       else:
+        else:
           # ✅ Store user inputs in session state
           st.session_state.frequency = frequency
           st.session_state.bandwidth = bandwidth
