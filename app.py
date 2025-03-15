@@ -100,51 +100,30 @@ if page == "📊 Prediction":
                             columns=["Frequency_GHz", "Bandwidth_MHz", "Noise_Level_dB", "Latency_ms", "Packet_Loss_%", 
                                      "Weather_Condition", "Modulation_Scheme", "Location_Type"])
 
-    if preprocessor is not None:
-        try:
-            input_processed = preprocessor.transform(input_df)
-        except Exception as e:
-            st.error(f"Error in preprocessing: {e}")
-            input_processed = None
-    else:
-        input_processed = None
-
-    if st.button("🚀 Predict Now") and model is not None and input_processed is not None:
+    if st.button("🚀 Predict Now") and model is not None:
+        input_processed = preprocessor.transform(input_df)
         st.session_state.prediction = y_scaler.inverse_transform(model.predict(input_processed))[0][0]
         st.success(f"📡 **Predicted Signal Strength:** {st.session_state.prediction:.2f} dBm")
-    else:
-        st.warning("⚠️ Please ensure all inputs are correctly filled.")
 
 # 🚀 Data Visualization Page
 elif page == "📈 Data Visualization":
     st.markdown('<h1 class="stTitle">📈 Data Insights & Visualizations</h1>', unsafe_allow_html=True)
-
-    if "prediction" in st.session_state and st.session_state.prediction is not None:
+    if "prediction" in st.session_state:
         st.markdown("### 📊 Feature Contribution")
-        fig, ax = plt.subplots(figsize=(10, 5))
-        sns.barplot(x=["Frequency", "Bandwidth", "Noise", "Latency", "Packet Loss"],
-                    y=[st.session_state.get("frequency", 0),
-                       st.session_state.get("bandwidth", 0),
-                       st.session_state.get("noise_level", 0),
-                       st.session_state.get("latency", 0),
-                       st.session_state.get("packet_loss", 0)],
-                    ax=ax, palette="coolwarm")
+        fig, ax = plt.subplots()
+        ax.bar(["Frequency", "Bandwidth", "Noise", "Latency", "Packet Loss"],
+               [frequency, bandwidth, noise_level, latency, packet_loss], color="skyblue")
         plt.xticks(rotation=45)
         st.pyplot(fig)
-
+        
         st.markdown("### 🌍 3D Animated Signal Strength Visualization")
-        fig = plt.figure(figsize=(8, 6))
+        fig = plt.figure()
         ax = fig.add_subplot(111, projection='3d')
         X = np.linspace(0, 10, 100)
         Y = np.linspace(0, 10, 100)
         X, Y = np.meshgrid(X, Y)
         Z = np.sin(X) * np.cos(Y) * 5 + st.session_state.prediction
-
         ax.plot_surface(X, Y, Z, cmap="coolwarm")
-        ax.set_xlabel("Time")
-        ax.set_ylabel("Frequency (GHz)")
-        ax.set_zlabel("Signal Strength (dBm)")
-        ax.set_title("3D Signal Strength Animation")
         st.pyplot(fig)
     else:
         st.warning("⚠️ No prediction made yet. Please go to the 'Prediction' page first.")
