@@ -59,7 +59,7 @@ page = st.sidebar.radio("Go to", ["🏠 Home", "📊 Prediction", "📈 Data Vis
 
 if page == "🏠 Home":
     st.markdown('<h1 class="stTitle">🚀 Satellite AI Model</h1>', unsafe_allow_html=True)
-    st.markdown('<h3 class="stMarkdown">Designed by <b>Aditya Pandey</b> for AI-powered Satellite Communication</h3>', unsafe_allow_html=True)
+    st.markdown('<h3 class="stMarkdown">Designed by <b>Aditya Pandey Student of 2nd year ECE dept at BIT Mesra</b> for AI-powered Satellite Communication</h3>', unsafe_allow_html=True)
 
     # ✅ Restored Logos & Images
     col1, col2 = st.columns([1, 1])
