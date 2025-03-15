@@ -2,7 +2,7 @@ import streamlit as st
 import tensorflow as tf
 import numpy as np
 import pandas as pd
-import pickle
+import joblib  # ✅ Use joblib for consistency
 import matplotlib.pyplot as plt
 import seaborn as sns
 from mpl_toolkits.mplot3d import Axes3D
@@ -36,18 +36,21 @@ model = load_model()
 if model is None:
     st.error("🚨 Model failed to load. Please check 'satellite_nn_model.h5'.")
 
-# 🚀 Load MinMaxScaler Parameters
-y_min = np.load("y_scaler_min.npy")
-y_max = np.load("y_scaler_max.npy")
-y_scaler = MinMaxScaler()
-y_scaler.min_, y_scaler.scale_ = y_min, 1 / (y_max - y_min)
+# ✅ Load MinMaxScaler for Target Variable
+try:
+    y_scaler = joblib.load("y_scaler.pkl")  # ✅ Load correctly saved scaler
+except Exception as e:
+    st.error(f"🚨 Error loading 'y_scaler.pkl': {e}")
+    y_scaler = None
 
 # ✅ Load and Verify Preprocessor (`preprocessor.pkl`)
-with open("preprocessor.pkl", "rb") as f:
-    preprocessor = pickle.load(f)
-
-if not hasattr(preprocessor, "transform"):
-    st.error("🚨 The preprocessor file is corrupted or incorrectly loaded. Please re-save 'preprocessor.pkl'.")
+try:
+    preprocessor = joblib.load("preprocessor.pkl")  # ✅ Use joblib instead of pickle
+    if not isinstance(preprocessor, ColumnTransformer):
+        st.error("🚨 'preprocessor.pkl' is invalid. Please re-save it.")
+        preprocessor = None
+except Exception as e:
+    st.error(f"🚨 Error loading preprocessor: {e}")
     preprocessor = None
 
 # 🚀 Sidebar Navigation
