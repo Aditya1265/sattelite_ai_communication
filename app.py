@@ -103,27 +103,28 @@ if page == "📊 Prediction":
     if st.button("🚀 Predict Now") and model is not None:
         input_processed = preprocessor.transform(input_df)
         st.session_state.prediction = y_scaler.inverse_transform(model.predict(input_processed))[0][0]
+        st.session_state.features = [frequency, bandwidth, noise_level, latency, packet_loss]  # ✅ Store features
         st.success(f"📡 **Predicted Signal Strength:** {st.session_state.prediction:.2f} dBm")
 
 # 🚀 Data Visualization Page
 elif page == "📈 Data Visualization":
     st.markdown('<h1 class="stTitle">📈 Data Insights & Visualizations</h1>', unsafe_allow_html=True)
-    if "prediction" in st.session_state:
+    if "features" in st.session_state:
         st.markdown("### 📊 Feature Contribution")
         fig, ax = plt.subplots()
         ax.bar(["Frequency", "Bandwidth", "Noise", "Latency", "Packet Loss"],
-               [frequency, bandwidth, noise_level, latency, packet_loss], color="skyblue")
+               st.session_state.features, color="skyblue")  # ✅ Use session state
         plt.xticks(rotation=45)
         st.pyplot(fig)
         
-        st.markdown("### 🌍 3D Animated Signal Strength Visualization")
+        # ✅ Additional complex graphs
+        fig, ax = plt.subplots()
+        sns.heatmap(pd.DataFrame(st.session_state.features).corr(), annot=True, cmap='coolwarm', ax=ax)
+        st.pyplot(fig)
+        
         fig = plt.figure()
         ax = fig.add_subplot(111, projection='3d')
-        X = np.linspace(0, 10, 100)
-        Y = np.linspace(0, 10, 100)
-        X, Y = np.meshgrid(X, Y)
-        Z = np.sin(X) * np.cos(Y) * 5 + st.session_state.prediction
-        ax.plot_surface(X, Y, Z, cmap="coolwarm")
+        ax.scatter(*zip(*[st.session_state.features]))
         st.pyplot(fig)
     else:
-        st.warning("⚠️ No prediction made yet. Please go to the 'Prediction' page first.")
+        st.warning("⚠️ No prediction data available. Please make a prediction first.")
