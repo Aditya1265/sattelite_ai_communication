@@ -57,6 +57,26 @@ except Exception as e:
 st.sidebar.title("Navigation")
 page = st.sidebar.radio("Go to", ["🏠 Home", "📊 Prediction", "📈 Data Visualization"])
 
+if page == "🏠 Home":
+    st.markdown('<h1 class="stTitle">🚀 Satellite AI Model</h1>', unsafe_allow_html=True)
+    st.markdown('<h3 class="stMarkdown">Designed by <b>Aditya Pandey</b> for AI-powered Satellite Communication</h3>', unsafe_allow_html=True)
+
+    # ✅ Restored Logos & Images
+    col1, col2 = st.columns([1, 1])
+    with col1:
+        st.image("assets/Birla_Institute_of_Technology_Mesra.png", width=200)
+        st.markdown("### BIT Mesra")
+        st.markdown("#### AI-Powered Satellite Communication System")
+    
+    with col2:
+        st.image("assets/917923.png", use_container_width=True)
+
+    st.markdown("""
+    ### 📡 Welcome to the **Satellite AI Model**
+    - This AI system predicts **real-time satellite signal strength** based on communication parameters.
+    - Designed to improve **satellite communication reliability** in various weather & location conditions.
+    """)
+
 # 🚀 Prediction Page
 if page == "📊 Prediction":
     st.markdown('<h1 class="stTitle">📊 Predict Satellite Signal Strength</h1>', unsafe_allow_html=True)
