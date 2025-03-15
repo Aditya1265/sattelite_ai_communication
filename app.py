@@ -113,7 +113,7 @@ elif page == "📈 Data Visualization":
         st.markdown("### 📊 Feature Contribution")
         fig, ax = plt.subplots()
         ax.bar(["Frequency", "Bandwidth", "Noise", "Latency", "Packet Loss"],
-               st.session_state.features, color="skyblue")  # ✅ Use session state
+               st.session_state.features, color="skyblue")
         plt.xticks(rotation=45)
         st.pyplot(fig)
         
@@ -125,6 +125,12 @@ elif page == "📈 Data Visualization":
         fig = plt.figure()
         ax = fig.add_subplot(111, projection='3d')
         ax.scatter(*zip(*[st.session_state.features]))
+        st.pyplot(fig)
+        
+        fig, ax = plt.subplots()
+        x = np.linspace(0, 10, 100)
+        y = np.sin(x)
+        ax.plot(x, y, 'r')
         st.pyplot(fig)
     else:
         st.warning("⚠️ No prediction data available. Please make a prediction first.")
